@@ -152,8 +152,7 @@ const installCard = () => {
       <div class="ln"><b>آيفون</b><span>من متصفح Safari: زر المشاركة ⬆️ ثم «إضافة إلى الشاشة الرئيسية».</span></div>
       <div class="ln"><b>أندرويد</b><span>من متصفح Chrome: القائمة «⋮» ثم «تثبيت التطبيق».</span></div>
     </div>
-    <div class="btns"><button class="btn" id="installBtn" type="button">${ic('phone',18)} تثبيت المنصة</button></div>
-    ${help?`<p class="ok">${help}</p>`:''}</div>`;
+    </div>`;
 };
 
 /* ===== الصفحات ===== */
@@ -176,6 +175,7 @@ V.home = () => {
         ? `<a class="row" href="#${k.id}"><span class="rowic">${ic('grid')}</span><div><b>${esc(k.title)}</b><small>${esc(sub)}</small></div><span class="pill on">مفعّل</span></a>`
         : `<div class="row locked"><span class="rowic off">${ic('grid')}</span><div><b>${esc(k.title)}</b><small>${esc(sub)}</small></div><span class="pill off">غير مفعّل</span></div>`;
     }).join('') || '<div class="card"><p class="todo">جارِ تحميل الدورات…</p></div>'}
+    ${installCard()}
   </div>`;
 };
 
