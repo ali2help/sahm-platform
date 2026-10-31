@@ -79,6 +79,9 @@ const SECTIONS = [
   ['certificate','شهادة الدورة','موعد الإصدار وشروط الاستحقاق','cert']
 ];
 
+/* أقسام معطّلة مؤقتًا (تُفعَّل لاحقًا) */
+const DISABLED = ['library'];
+
 /* ===== أدوات ===== */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -157,9 +160,9 @@ const installCard = () => {
 const V = {};
 V.home = () => {
   const c = C();
-  return hero('','','كل ما تحتاجه خلال البرنامج في مكان واحد: دورات البرنامج، الأسئلة المتكررة، واستمارة التعارف.','plain') + `
+  return hero('','','كل ما تحتاجه خلال البرنامج تجده هنا في مكان واحد.','plain') + `
   <div class="stack">
-    <div class="note"><b>📢 تنويه مهم للمشاركين</b><br>يُرجى الاطلاع على الأسئلة والإجابات الواردة في صفحة الأسئلة المتكررة قبل انعقاد اللقاء التدريبي؛ تفاديًا لتكرار الاستفسارات، وتحقيقًا للاستفادة المثلى من وقت اللقاء.</div>
+    <div class="note"><b>📢 تنويه مهم للمشاركين</b><br>يُرجى الاطلاع على الأسئلة المتكررة قبل انعقاد اللقاء التدريبي.</div>
     <div class="tiles">
       <a class="tile" href="#faq"><span class="ic">${ic('faq')}</span><b>الأسئلة المتكررة</b><span>اقرأها قبل اللقاء الأول</span></a>
       ${c.introForm?`<a class="tile" href="${esc(c.introForm)}" target="_blank" rel="noopener"><span class="ic">${ic('form')}</span><b>استمارة التعارف</b><span>عرّفنا بنفسك</span></a>`:`<div class="tile"><span class="ic">${ic('form')}</span><b>استمارة التعارف</b><span>تُضاف قريبًا</span></div>`}
@@ -173,7 +176,6 @@ V.home = () => {
         ? `<a class="row" href="#${k.id}"><span class="rowic">${ic('grid')}</span><div><b>${esc(k.title)}</b><small>${esc(sub)}</small></div><span class="pill on">مفعّل</span></a>`
         : `<div class="row locked"><span class="rowic off">${ic('grid')}</span><div><b>${esc(k.title)}</b><small>${esc(sub)}</small></div><span class="pill off">غير مفعّل</span></div>`;
     }).join('') || '<div class="card"><p class="todo">جارِ تحميل الدورات…</p></div>'}
-    ${installCard()}
   </div>`;
 };
 
@@ -182,7 +184,9 @@ V.faq = () => crumbs('الأسئلة المتكررة') + hero(C().name,'الأ�
 
 V.course = k => hero(C().name,'نرحب بكم في موقع '+k.title,'','welcome-h').replace('<h1>','<h1 class="welcome">') + `
   <div class="stack">
-    <div class="tiles">${SECTIONS.map(([s,t,d,i])=>`<a class="tile" href="#${k.id}-${s}"><span class="ic">${ic(i)}</span><b>${t}</b><span>${d}</span></a>`).join('')}</div>
+    <div class="tiles">${SECTIONS.map(([s,t,d,i])=>DISABLED.includes(s)
+      ? `<div class="tile off" aria-disabled="true"><span class="ic">${ic(i)}</span><b>${t}</b><span>تُفعَّل لاحقًا</span></div>`
+      : `<a class="tile" href="#${k.id}-${s}"><span class="ic">${ic(i)}</span><b>${t}</b><span>${d}</span></a>`).join('')}</div>
     ${pageText('الصفحة الرئيسية للدورة','note')}
   </div>`;
 
@@ -215,7 +219,7 @@ function render(){
   let html;
   if (h==='faq'||h==='manage') html = V[h]();
   else if (k && !sec) html = crumbs(esc(k.title)) + (isActive(k)?V.course(k):lockedView(k));
-  else if (k && SV[sec]) {
+  else if (k && SV[sec] && !DISABLED.includes(sec)) {
     const s = SECTIONS.find(x=>x[0]===sec);
     html = crumbs(`<a href="#${k.id}">${esc(k.title)}</a>`, s[1]) + (isActive(k) ? hero(k.title, s[1], '') + `<div class="stack">${SV[sec](k)}</div>` : lockedView(k));
   } else html = V.home();
