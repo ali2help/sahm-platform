@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منصة المدرب المتميز</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#B3121B">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="المدرب المتميز">
+<style>:root{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>
+/* Layout: mobile-first app shell — sticky brand bar, single reading column (max 760px), tile grid for course sections, full-width red "return home" band closing every view */
+:root{
+  --brand:#B3121B;        /* سهم red */
+  --brand-deep:#7E0C13;
+  --brand-ink:#FFFFFF;
+  --bg:#FBF8F8;           /* neutral with a faint red bias */
+  --surface:#FFFFFF;
+  --fg:#2A1D1E;
+  --muted:#7A6A6B;
+  --line:#EADFE0;
+  --ok:#1F7A45; --ok-bg:#E6F4EC;
+  --wait:#8A5A00; --wait-bg:#FFF3D6;
+  --font-display:"Cairo","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --font-body:"IBM Plex Sans Arabic","Cairo",Tahoma,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --brand:#D42A33;--brand-deep:#8F1219;--brand-ink:#FFFFFF;--bg:#161011;--surface:#211819;--fg:#F3E9EA;--muted:#B39FA1;--line:#3A2C2E;
+  --ok:#6FD39A;--ok-bg:#163223;--wait:#F2C46B;--wait-bg:#3A2D12;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --brand:#D42A33;--brand-deep:#8F1219;--brand-ink:#FFFFFF;--bg:#161011;--surface:#211819;--fg:#F3E9EA;--muted:#B39FA1;--line:#3A2C2E;
+  --ok:#6FD39A;--ok-bg:#163223;--wait:#F2C46B;--wait-bg:#3A2D12;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--brand)}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.35}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--brand);color:var(--brand-ink);box-shadow:0 2px 10px rgb(0 0 0 / .18)}
+.bar-in{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.mark svg{flex:none}
+.mark b{font-family:var(--font-display);font-weight:800;font-size:16px;white-space:nowrap}
+.mark small{display:block;font-size:11px;opacity:.85;line-height:1.2}
+.bar-sp{flex:1}
+.cohort{appearance:none;background:rgb(255 255 255 / .16);color:var(--brand-ink);border:1px solid rgb(255 255 255 / .35);border-radius:999px;padding:4px 12px;font-weight:600;font-size:13px;cursor:pointer}
+.cohort option{color:#2A1D1E}
+.homebtn{display:inline-flex;align-items:center;gap:6px;background:var(--brand-ink);color:var(--brand);text-decoration:none;font-weight:700;font-size:14px;border-radius:8px;padding:6px 12px;white-space:nowrap}
+
+/* page */
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 32px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--muted);margin-bottom:10px}
+.crumbs a{text-decoration:none;color:var(--brand);font-weight:600}
+.hero{background:linear-gradient(135deg,var(--brand-deep),var(--brand));color:var(--brand-ink);border-radius:var(--r);padding:22px 20px;display:grid;gap:6px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -40px -60px auto;width:180px;height:180px;border-radius:50%;border:28px solid rgb(255 255 255 / .08)}
+.hero .eyebrow{font-size:12px;letter-spacing:.04em;opacity:.9;font-weight:600}
+.hero h1{font-size:clamp(24px,5vw,32px);font-weight:900}
+.hero p{margin:0;opacity:.92;max-width:52ch}
+.stack{display:grid;gap:16px;margin-top:18px}
+.section-t{font-family:var(--font-display);font-weight:800;font-size:19px;margin-top:8px}
+.note{background:var(--wait-bg);color:var(--fg);border-radius:var(--r);padding:14px 16px;border-inline-start:5px solid var(--wait)}
+.note b{color:var(--wait)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.card p{margin:.3em 0}
+.prose p{margin:.5em 0}
+.prose h3{font-size:17px;color:var(--brand);margin-top:14px}
+.prose ol,.prose ul{margin:.4em 0;padding-inline-start:1.3em}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tile{display:grid;gap:8px;align-content:start;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 14px;transition:transform .15s,border-color .15s}
+.tile:hover{transform:translateY(-2px);border-color:var(--brand)}
+.tile .ic{width:42px;height:42px;border-radius:12px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center}
+.tile b{font-family:var(--font-display);font-size:16px;font-weight:800}
+.tile span{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* rows */
+.row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;text-decoration:none}
+.row>div{min-width:0;flex:1}
+.row b{font-family:var(--font-display);font-weight:800}
+.row small{display:block;color:var(--muted);font-size:13px;line-height:1.5}
+a.row:hover{border-color:var(--brand)}
+.pill{flex:none;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.pill.on{background:var(--ok-bg);color:var(--ok)}
+.pill.off{background:var(--wait-bg);color:var(--wait)}
+.row.locked{opacity:.75}
+.rowic{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--brand);color:var(--brand-ink)}
+.rowic.off{background:var(--line);color:var(--muted)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--brand);color:var(--brand-ink);text-decoration:none;font-weight:700;border-radius:10px;padding:10px 18px;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand);border:1.5px solid var(--brand)}
+.btn[aria-disabled="true"]{background:var(--line);color:var(--muted);cursor:not-allowed;border:0}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+
+/* faq */
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+details summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;gap:10px;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";margin-inline-start:auto;color:var(--brand);font-size:20px;font-weight:700}
+details[open] summary::after{content:"−"}
+details[open] summary{color:var(--brand)}
+details .a{padding:0 16px 14px;color:var(--fg)}
+.todo{color:var(--muted);font-style:italic}
+
+/* table (manage) */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap}
+th{font-family:var(--font-display);font-weight:800;color:var(--brand);background:color-mix(in srgb,var(--brand) 6%,var(--surface))}
+td{font-variant-numeric:tabular-nums}
+
+/* return band */
+.back{display:block;text-decoration:none;background:var(--brand);color:var(--brand-ink)}
+.back-in{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:10px;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-family:var(--font-display);font-weight:800;font-size:19px}
+.back:hover{background:var(--brand-deep)}
+.foot{background:var(--brand-deep);color:var(--brand-ink)}
+.foot-in{max-width:760px;margin:0 auto;text-align:center;font-size:13px;opacity:.92;padding-block:18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.foot-in p{margin:.2em 0}
+
+.install{display:flex;gap:12px;align-items:center}
+.install .ic{flex:none;width:46px;height:46px;border-radius:12px;background:var(--brand);display:grid;place-items:center;color:var(--brand-ink)}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}.tile:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="mark" href="#home" aria-label="الصفحة الرئيسية">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#fff"/><path d="M8 21h17l-5-5M25 21l-5 5" stroke="#B3121B" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="21" r="4" fill="#B3121B"/></svg>
+      <span><b>المدرب المتميز</b><small>مركز سهم المعتمد للتدريب</small></span>
+    </a>
+    <span class="bar-sp"></span>
+    <select class="cohort" id="cohort" aria-label="اختر الدورة"></select>
+    <a class="homebtn" href="#home"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z" fill="currentColor"/></svg>الرئيسية</a>
+  </div>
+</header>
+
+<main id="view" class="wrap" aria-live="polite"></main>
+
+<a class="back" href="#home" id="backband"><span class="back-in"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z" fill="currentColor"/></svg>العودة إلى الصفحة الرئيسية</span></a>
+<footer class="foot"><div class="foot-in"><p>الحقوق محفوظة © مركز سهم المعتمد للتدريب</p><p>(الاستخدام غير المرخَّص لمحتويات الموقع يعد مخالفة ويعرض مرتكبها للمساءلة القانونية)</p></div></footer>
+
+<script src="app.js"></script>
+</body>
+</html>
